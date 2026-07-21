@@ -1,0 +1,23 @@
+[
+  {
+    "name": "first-contributions",
+    "owner": "firstcontributions",
+    "description": "Belajar berkontribusi open-source dengan membuat pull request pertamamu.",
+    "language": "Panduan",
+    "url": "https://github.com/firstcontributions/first-contributions"
+  },
+  {
+    "name": "freeCodeCamp",
+    "owner": "freeCodeCamp",
+    "description": "Platform belajar pemrograman dengan komunitas open-source yang besar.",
+    "language": "JavaScript",
+    "url": "https://github.com/freeCodeCamp/freeCodeCamp"
+  },
+  {
+    "name": "public-apis",
+    "owner": "public-apis",
+    "description": "Kumpulan API publik gratis untuk berbagai proyek dan eksperimen.",
+    "language": "Python",
+    "url": "https://github.com/public-apis/public-apis"
+  }
+]

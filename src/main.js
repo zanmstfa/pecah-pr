@@ -1,60 +1,82 @@
 import './style.css'
-import javascriptLogo from './assets/javascript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.js'
+import repositories from './data/repositories.json'
 
 document.querySelector('#app').innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${javascriptLogo}" class="framework" alt="JavaScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.js</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+  <header class="navbar">
+    <a class="logo" href="/">PecahPR</a>
+    <a class="github-link" href="https://github.com" target="_blank">
+      Buka GitHub
+    </a>
+  </header>
 
-<div class="ticks"></div>
+  <main>
+    <section class="hero">
+      <span class="label">Open source untuk semua</span>
+      <h1>Pecahkan pull request pertamamu.</h1>
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-          <img class="button-icon" src="${javascriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+      <p>
+        Temukan proyek open-source yang ramah pemula dan mulai
+        berkontribusi tanpa bingung harus dari mana.
+      </p>
 
-<div class="ticks"></div>
-<section id="spacer"></section>
+      <a class="button" href="#repository">Cari kontribusi</a>
+    </section>
+
+    <section id="repository" class="repository">
+      <div class="section-heading">
+        <div>
+          <h2>Repository ramah pemula</h2>
+          <p>Pilih teknologi yang ingin kamu kontribusikan.</p>
+        </div>
+
+        <select id="language-filter" aria-label="Filter bahasa">
+          <option value="Semua">Semua bahasa</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="Python">Python</option>
+          <option value="Panduan">Panduan</option>
+        </select>
+      </div>
+
+      <div id="repository-list" class="repository-list"></div>
+    </section>
+  </main>
 `
 
-setupCounter(document.querySelector('#counter'))
+const repositoryList = document.querySelector('#repository-list')
+const languageFilter = document.querySelector('#language-filter')
+
+function displayRepositories(items) {
+  repositoryList.innerHTML = items
+    .map(
+      (repository) => `
+        <article class="card">
+          <div>
+            <span class="language">${repository.language}</span>
+            <h3>${repository.name}</h3>
+            <span class="owner">${repository.owner}</span>
+            <p>${repository.description}</p>
+          </div>
+
+          <a href="${repository.url}" target="_blank" rel="noopener noreferrer">
+            Lihat repository →
+          </a>
+        </article>
+      `,
+    )
+    .join('')
+}
+
+languageFilter.addEventListener('change', (event) => {
+  const selectedLanguage = event.target.value
+
+  const filteredRepositories =
+    selectedLanguage === 'Semua'
+      ? repositories
+      : repositories.filter(
+          (repository) => repository.language === selectedLanguage,
+        )
+
+  displayRepositories(filteredRepositories)
+})
+
+displayRepositories(repositories)
