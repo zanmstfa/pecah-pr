@@ -44,6 +44,7 @@ document.querySelector('#app').innerHTML = `
         </select>
       </div>
 
+      <p id="result-count" class="result-count"></p>
       <div id="repository-list" class="repository-list"></div>
     </section>
 
@@ -133,11 +134,25 @@ document.querySelector('#app').innerHTML = `
 `
 
 const repositoryList = document.querySelector('#repository-list')
+const resultCount = document.querySelector('#result-count')
 const languageFilter = document.querySelector('#language-filter')
 const searchInput = document.querySelector('#search-input')
 const proposalForm = document.querySelector('#proposal-form')
 
 function displayRepositories(items) {
+  resultCount.textContent = `${items.length} repository ditemukan`
+
+  if (items.length === 0) {
+    repositoryList.innerHTML = `
+      <div class="empty-state">
+        <span>🔍</span>
+        <h3>Repository tidak ditemukan</h3>
+        <p>Coba kata kunci atau bahasa yang berbeda.</p>
+      </div>
+    `
+    return
+  }
+
   repositoryList.innerHTML = items
     .map(
       (repository) => `
