@@ -1,6 +1,9 @@
 # PecahPR
 
 PecahPR membantu developer Indonesia menemukan repository open-source yang ramah untuk kontribusi pertama.
+## Demo
+
+Kunjungi website: [PecahPR](https://zanmstfa.github.io/pecah-pr/)
 
 ## Fitur
 
