@@ -1,0 +1,52 @@
+name: Deploy PecahPR
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ambil source code
+        uses: actions/checkout@v7
+
+      - name: Siapkan Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Instal dependensi
+        run: npm ci
+
+      - name: Build website
+        run: npm run build
+
+      - name: Siapkan GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Unggah website
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./dist
+
+      - name: Terbitkan website
+        id: deployment
+        uses: actions/deploy-pages@v5
