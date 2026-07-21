@@ -41,9 +41,6 @@ document.querySelector('#app').innerHTML = `
 
         <select id="language-filter" aria-label="Filter bahasa">
           <option value="Semua">Semua bahasa</option>
-          <option value="JavaScript">JavaScript</option>
-          <option value="Python">Python</option>
-          <option value="Panduan">Panduan</option>
         </select>
       </div>
 
@@ -263,6 +260,23 @@ themeToggle.addEventListener('click', () => {
     'pecahpr-theme',
     darkModeActive ? 'dark' : 'light',
   )
+})
+
+const languages = [
+  ...new Set(
+    repositories.map((repository) => repository.language),
+  ),
+].sort((firstLanguage, secondLanguage) =>
+  firstLanguage.localeCompare(secondLanguage, 'id'),
+)
+
+languages.forEach((language) => {
+  const option = document.createElement('option')
+
+  option.value = language
+  option.textContent = language
+
+  languageFilter.appendChild(option)
 })
 
 displayRepositories(repositories)
