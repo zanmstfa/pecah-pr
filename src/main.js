@@ -4,6 +4,9 @@ import repositories from './data/repositories.json'
 document.querySelector('#app').innerHTML = `
   <header class="navbar">
     <a class="logo" href="/">PecahPR</a>
+    <button id="theme-toggle" class="theme-toggle" type="button">
+  🌙 Mode gelap
+  </button>
     <a class="github-link" href="https://github.com" target="_blank">
       Buka GitHub
     </a>
@@ -138,6 +141,7 @@ const resultCount = document.querySelector('#result-count')
 const languageFilter = document.querySelector('#language-filter')
 const searchInput = document.querySelector('#search-input')
 const proposalForm = document.querySelector('#proposal-form')
+const themeToggle = document.querySelector('#theme-toggle')
 
 function displayRepositories(items) {
   resultCount.textContent = `${items.length} repository ditemukan`
@@ -239,6 +243,26 @@ ${description}
   githubIssueUrl.searchParams.set('labels', 'enhancement')
 
   window.open(githubIssueUrl.toString(), '_blank')
+})
+
+const savedTheme = localStorage.getItem('pecahpr-theme')
+
+if (savedTheme === 'dark') {
+  document.body.classList.add('dark-theme')
+  themeToggle.textContent = '☀️ Mode terang'
+}
+
+themeToggle.addEventListener('click', () => {
+  const darkModeActive = document.body.classList.toggle('dark-theme')
+
+  themeToggle.textContent = darkModeActive
+    ? '☀️ Mode terang'
+    : '🌙 Mode gelap'
+
+  localStorage.setItem(
+    'pecahpr-theme',
+    darkModeActive ? 'dark' : 'light',
+  )
 })
 
 displayRepositories(repositories)
