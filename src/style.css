@@ -186,3 +186,18 @@ select {
     letter-spacing: -2px;
   }
 }
+
+#search-input {
+  min-width: 240px;
+  padding: 12px 16px;
+  color: #172033;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+}
+
+#search-input:focus {
+  border-color: #16a34a;
+  outline: 3px solid rgb(22 163 74 / 15%);
+}

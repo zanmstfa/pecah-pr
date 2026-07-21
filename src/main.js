@@ -29,6 +29,13 @@ document.querySelector('#app').innerHTML = `
           <p>Pilih teknologi yang ingin kamu kontribusikan.</p>
         </div>
 
+        <input
+          id="search-input"
+          type="search"
+          placeholder="Cari repository..."
+          aria-label="Cari repository"
+        />
+
         <select id="language-filter" aria-label="Filter bahasa">
           <option value="Semua">Semua bahasa</option>
           <option value="JavaScript">JavaScript</option>
@@ -44,6 +51,7 @@ document.querySelector('#app').innerHTML = `
 
 const repositoryList = document.querySelector('#repository-list')
 const languageFilter = document.querySelector('#language-filter')
+const searchInput = document.querySelector('#search-input')
 
 function displayRepositories(items) {
   repositoryList.innerHTML = items
@@ -66,17 +74,27 @@ function displayRepositories(items) {
     .join('')
 }
 
-languageFilter.addEventListener('change', (event) => {
-  const selectedLanguage = event.target.value
+function filterRepositories() {
+  const selectedLanguage = languageFilter.value
+  const searchText = searchInput.value.toLowerCase()
 
-  const filteredRepositories =
-    selectedLanguage === 'Semua'
-      ? repositories
-      : repositories.filter(
-          (repository) => repository.language === selectedLanguage,
-        )
+  const filteredRepositories = repositories.filter((repository) => {
+    const matchesLanguage =
+      selectedLanguage === 'Semua' ||
+      repository.language === selectedLanguage
+
+    const matchesSearch =
+      repository.name.toLowerCase().includes(searchText) ||
+      repository.owner.toLowerCase().includes(searchText) ||
+      repository.description.toLowerCase().includes(searchText)
+
+    return matchesLanguage && matchesSearch
+  })
 
   displayRepositories(filteredRepositories)
-})
+}
+
+languageFilter.addEventListener('change', filterRepositories)
+searchInput.addEventListener('input', filterRepositories)
 
 displayRepositories(repositories)
