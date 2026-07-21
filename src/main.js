@@ -46,12 +46,96 @@ document.querySelector('#app').innerHTML = `
 
       <div id="repository-list" class="repository-list"></div>
     </section>
+
+        <section class="proposal" id="proposal">
+      <div class="proposal-intro">
+        <span class="label">Bantu komunitas</span>
+        <h2>Usulkan repository</h2>
+        <p>
+          Menemukan repository yang cocok untuk pemula?
+          Kirimkan usulanmu melalui GitHub Issue.
+        </p>
+      </div>
+
+      <form id="proposal-form" class="proposal-form">
+        <div class="form-row">
+          <label>
+            Nama repository
+            <input
+              id="proposal-name"
+              type="text"
+              placeholder="contoh: pecah-pr"
+              required
+            />
+          </label>
+
+          <label>
+            Nama pemilik
+            <input
+              id="proposal-owner"
+              type="text"
+              placeholder="contoh: zanmstfa"
+              required
+            />
+          </label>
+        </div>
+
+        <label>
+          Bahasa pemrograman
+          <select id="proposal-language" required>
+            <option value="">Pilih bahasa</option>
+            <option value="JavaScript">JavaScript</option>
+            <option value="Python">Python</option>
+            <option value="PHP">PHP</option>
+            <option value="Java">Java</option>
+            <option value="TypeScript">TypeScript</option>
+            <option value="Panduan">Panduan</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </label>
+
+        <label>
+          Deskripsi
+          <textarea
+            id="proposal-description"
+            rows="4"
+            placeholder="Jelaskan repository ini secara singkat..."
+            required
+          ></textarea>
+        </label>
+
+        <label>
+          URL repository
+          <input
+            id="proposal-url"
+            type="url"
+            placeholder="https://github.com/pemilik/repository"
+            required
+          />
+        </label>
+
+        <label>
+          URL issue ramah pemula
+          <input
+            id="proposal-issue-url"
+            type="url"
+            placeholder="https://github.com/pemilik/repository/issues/..."
+          />
+        </label>
+
+        <button class="button submit-button" type="submit">
+          Kirim usulan
+        </button>
+      </form>
+    </section>
+
   </main>
 `
 
 const repositoryList = document.querySelector('#repository-list')
 const languageFilter = document.querySelector('#language-filter')
 const searchInput = document.querySelector('#search-input')
+const proposalForm = document.querySelector('#proposal-form')
 
 function displayRepositories(items) {
   repositoryList.innerHTML = items
@@ -96,5 +180,50 @@ function filterRepositories() {
 
 languageFilter.addEventListener('change', filterRepositories)
 searchInput.addEventListener('input', filterRepositories)
+
+proposalForm.addEventListener('submit', (event) => {
+  event.preventDefault()
+
+  const name = document.querySelector('#proposal-name').value.trim()
+  const owner = document.querySelector('#proposal-owner').value.trim()
+  const language = document.querySelector('#proposal-language').value
+  const description = document
+    .querySelector('#proposal-description')
+    .value.trim()
+  const repositoryUrl = document.querySelector('#proposal-url').value.trim()
+  const issueUrl = document.querySelector('#proposal-issue-url').value.trim()
+
+  const issueTitle = `Usulan repository: ${owner}/${name}`
+
+  const issueBody = `## Repository
+
+- **Nama:** ${name}
+- **Pemilik:** ${owner}
+- **Bahasa:** ${language}
+- **URL repository:** ${repositoryUrl}
+- **URL issue pemula:** ${issueUrl || 'Tidak dicantumkan'}
+
+## Deskripsi
+
+${description}
+
+## Pemeriksaan
+
+- [ ] Repository bersifat publik
+- [ ] Repository masih aktif
+- [ ] Dokumentasi repository cukup jelas
+- [ ] Repository memiliki issue ramah pemula
+- [ ] Repository belum tersedia di PecahPR`
+
+  const githubIssueUrl = new URL(
+    'https://github.com/zanmstfa/pecah-pr/issues/new',
+  )
+
+  githubIssueUrl.searchParams.set('title', issueTitle)
+  githubIssueUrl.searchParams.set('body', issueBody)
+  githubIssueUrl.searchParams.set('labels', 'enhancement')
+
+  window.open(githubIssueUrl.toString(), '_blank')
+})
 
 displayRepositories(repositories)
