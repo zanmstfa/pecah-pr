@@ -30,6 +30,41 @@ document.querySelector('#app').innerHTML = `
       <a class="button" href="#repository">Cari kontribusi</a>
     </section>
 
+    <section class="getting-started" aria-labelledby="getting-started-title">
+  <div class="getting-started-heading">
+    <span class="eyebrow">Cara mulai</span>
+    <h2 id="getting-started-title">
+      Kontribusi pertamamu dalam tiga langkah
+    </h2>
+  </div>
+
+  <ol class="steps-list">
+    <li class="step-card">
+      <span class="step-number">01</span>
+      <h3>Pilih repository</h3>
+      <p>
+        Cari proyek yang sesuai dengan teknologi yang ingin kamu pelajari.
+      </p>
+    </li>
+
+    <li class="step-card">
+      <span class="step-number">02</span>
+      <h3>Baca panduannya</h3>
+      <p>
+        Periksa README dan CONTRIBUTING sebelum mulai mengubah kode.
+      </p>
+    </li>
+
+    <li class="step-card">
+      <span class="step-number">03</span>
+      <h3>Kirim perubahan</h3>
+      <p>
+        Kerjakan issue, uji perubahan, lalu kirim melalui pull request.
+      </p>
+    </li>
+  </ol>
+</section>
+
     <section id="repository" class="repository">
   <div class="section-heading">
     <div>

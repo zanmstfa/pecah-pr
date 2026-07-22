@@ -605,3 +605,87 @@ body {
   color: #86efac;
 }
 
+.getting-started {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.getting-started-heading {
+  max-width: 620px;
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  color: #15803d;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.getting-started h2 {
+  margin: 10px 0 0;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -1.5px;
+}
+
+.steps-list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  list-style: none;
+}
+
+.step-card {
+  padding: 28px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+}
+
+.step-number {
+  color: #16a34a;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.step-card h3 {
+  margin: 28px 0 10px;
+  font-size: 20px;
+}
+
+.step-card p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.dark-theme .step-card {
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.dark-theme .step-card p {
+  color: #94a3b8;
+}
+
+.dark-theme .eyebrow,
+.dark-theme .step-number {
+  color: #86efac;
+}
+
+@media (max-width: 800px) {
+  .steps-list {
+    grid-template-columns: 1fr;
+  }
+
+  .step-card h3 {
+    margin-top: 18px;
+  }
+}
+
