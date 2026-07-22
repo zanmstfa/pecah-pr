@@ -4,20 +4,29 @@
     "owner": "firstcontributions",
     "description": "Belajar berkontribusi open-source dengan membuat pull request pertamamu.",
     "language": "Panduan",
-    "url": "https://github.com/firstcontributions/first-contributions"
+    "url": "https://github.com/firstcontributions/first-contributions",
+    "contributingUrl": "https://github.com/firstcontributions/first-contributions/blob/main/.github/CONTRIBUTING.md",
+    "hasBeginnerIssues": false,
+    "verifiedAt": "2026-07-22"
   },
   {
     "name": "freeCodeCamp",
     "owner": "freeCodeCamp",
     "description": "Platform belajar pemrograman dengan komunitas open-source yang besar.",
     "language": "JavaScript",
-    "url": "https://github.com/freeCodeCamp/freeCodeCamp"
+    "url": "https://github.com/freeCodeCamp/freeCodeCamp",
+    "contributingUrl": "https://github.com/freeCodeCamp/.github/blob/main/CONTRIBUTING.md",
+    "hasBeginnerIssues": false,
+    "verifiedAt": "2026-07-22"
   },
   {
     "name": "public-apis",
     "owner": "public-apis",
     "description": "Kumpulan API publik gratis untuk berbagai proyek dan eksperimen.",
     "language": "Python",
-    "url": "https://github.com/public-apis/public-apis"
+    "url": "https://github.com/public-apis/public-apis",
+    "contributingUrl": "https://github.com/public-apis/public-apis/blob/master/CONTRIBUTING.md",
+    "hasBeginnerIssues": true,
+    "verifiedAt": "2026-07-22"
   }
 ]

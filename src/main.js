@@ -357,6 +357,22 @@ let visibleRepositories = []
 let lastRandomRepositoryId = null
 let recommendationHighlightTimeout
 
+const verificationDateFormatter = new Intl.DateTimeFormat(
+  'id-ID',
+  {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  },
+)
+
+function formatVerificationDate(date) {
+  return verificationDateFormatter.format(
+    new Date(`${date}T00:00:00Z`),
+  )
+}
+
 function displayRepositories(items) {
   visibleRepositories = items
   randomRepositoryButton.disabled = items.length === 0
@@ -377,6 +393,9 @@ function displayRepositories(items) {
     .map((repository) => {
       const repositoryId = `${repository.owner}/${repository.name}`
       const isFavorite = favoriteRepositories.has(repositoryId)
+      const verificationDate = formatVerificationDate(
+        repository.verifiedAt,
+      )
 
       return `
         <article
@@ -404,6 +423,47 @@ function displayRepositories(items) {
             <h3>${repository.name}</h3>
             <span class="owner">${repository.owner}</span>
             <p>${repository.description}</p>
+
+            <div
+              class="readiness-status"
+              role="group"
+              aria-label="Kesiapan kontribusi"
+            >
+              <a
+                class="readiness-badge guide-available"
+                href="${repository.contributingUrl}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Panduan tersedia
+              </a>
+
+              ${
+                repository.hasBeginnerIssues
+                  ? `
+                    <a
+                      class="readiness-badge issues-available"
+                      href="${repository.url}/contribute"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Issue pemula tersedia
+                    </a>
+                  `
+                  : `
+                    <span class="readiness-badge issues-unavailable">
+                      Issue pemula belum tersedia
+                    </span>
+                  `
+              }
+            </div>
+
+            <time
+              class="verified-at"
+              datetime="${repository.verifiedAt}"
+            >
+              Diperiksa ${verificationDate}
+            </time>
           </div>
 
           <div class="card-actions">
