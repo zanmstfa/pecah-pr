@@ -32,10 +32,56 @@ document.querySelector('#app').innerHTML = `
 
     <section id="repository" class="repository">
       <div class="section-heading">
-        <div>
-          <h2>Repository ramah pemula</h2>
-          <p>Pilih teknologi yang ingin kamu kontribusikan.</p>
-        </div>
+        <div class="section-heading">
+  <div>
+    <h2>Repository ramah pemula</h2>
+    <p>Pilih teknologi yang ingin kamu kontribusikan.</p>
+  </div>
+
+  <p id="result-count" class="result-count"></p>
+</div>
+
+<div class="repository-controls">
+  <input
+    id="search-input"
+    type="search"
+    placeholder="Cari repository..."
+    aria-label="Cari repository"
+  />
+
+  <div class="filter-controls">
+    <select id="language-filter" aria-label="Filter bahasa">
+      <option value="Semua">Semua bahasa</option>
+    </select>
+
+    <select id="sort-order" aria-label="Urutkan repository">
+      <option value="default">Urutan bawaan</option>
+      <option value="az">Nama A–Z</option>
+      <option value="za">Nama Z–A</option>
+    </select>
+
+    <button
+      id="favorites-filter"
+      class="favorites-filter-button"
+      type="button"
+      aria-label="Tampilkan repository favorit"
+      aria-pressed="false"
+      title="Tampilkan favorit"
+    >
+      ☆
+    </button>
+
+    <button
+      id="reset-filters"
+      class="reset-button"
+      type="button"
+    >
+      Reset
+    </button>
+  </div>
+</div>
+
+<div id="repository-list" class="repository-list"></div>
 
         <input
           id="search-input"
