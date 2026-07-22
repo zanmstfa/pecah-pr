@@ -192,6 +192,65 @@ select {
   font-size: 14px;
 }
 
+.readiness-status {
+  margin-top: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card .readiness-badge {
+  padding: 5px 9px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-decoration: none;
+}
+
+.card a.readiness-badge:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.guide-available,
+.issues-available {
+  color: #166534;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.issues-unavailable {
+  color: #64748b;
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.verified-at {
+  margin-top: 10px;
+  display: block;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.dark-theme .guide-available,
+.dark-theme .issues-available {
+  color: #86efac;
+  background: #14532d;
+  border-color: #166534;
+}
+
+.dark-theme .issues-unavailable {
+  color: #94a3b8;
+  background: #0f172a;
+  border-color: #475569;
+}
+
+.dark-theme .verified-at {
+  color: #94a3b8;
+}
+
 @media (max-width: 800px) {
   .repository-list {
     grid-template-columns: 1fr;

@@ -29,6 +29,8 @@ const requiredFields = [
   'description',
   'language',
   'url',
+  'contributingUrl',
+  'verifiedAt',
 ]
 
 repositories.forEach((repository, index) => {
@@ -51,6 +53,40 @@ repositories.forEach((repository, index) => {
     errors.push(
       `Data ke-${position}: URL harus diawali https://github.com/.`,
     )
+  }
+
+  if (
+    typeof repository.contributingUrl === 'string' &&
+    !repository.contributingUrl.startsWith(
+      'https://github.com/',
+    )
+  ) {
+    errors.push(
+      `Data ke-${position}: URL panduan kontribusi harus berasal dari GitHub.`,
+    )
+  }
+
+  if (typeof repository.hasBeginnerIssues !== 'boolean') {
+    errors.push(
+      `Data ke-${position}: "hasBeginnerIssues" wajib berupa true atau false.`,
+    )
+  }
+
+  if (typeof repository.verifiedAt === 'string') {
+    const verifiedDate = new Date(
+      `${repository.verifiedAt}T00:00:00Z`,
+    )
+    const validDate =
+      /^\d{4}-\d{2}-\d{2}$/.test(repository.verifiedAt) &&
+      !Number.isNaN(verifiedDate.getTime()) &&
+      verifiedDate.toISOString().slice(0, 10) ===
+        repository.verifiedAt
+
+    if (!validDate) {
+      errors.push(
+        `Data ke-${position}: "verifiedAt" wajib memakai tanggal YYYY-MM-DD yang valid.`,
+      )
+    }
   }
 
   if (
