@@ -722,6 +722,96 @@ body {
   border-color: #a16207;
 }
 
+.copy-filter-link-button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: grid;
+  flex: 0 0 44px;
+  place-items: center;
+  color: #64748b;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.copy-filter-link-button:hover {
+  color: #15803d;
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+
+.copy-filter-link-button:focus-visible {
+  outline: 3px solid rgb(22 163 74 / 20%);
+  outline-offset: 2px;
+}
+
+.copy-filter-link-button svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dark-theme .copy-filter-link-button {
+  color: #94a3b8;
+  background: #0f172a;
+  border-color: #475569;
+}
+
+.dark-theme .copy-filter-link-button:hover {
+  color: #86efac;
+  background: #14532d;
+  border-color: #22c55e;
+}
+
+.copy-feedback {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 40;
+  max-width: calc(100vw - 32px);
+  padding: 11px 16px;
+  color: white;
+  background: #172033;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgb(15 23 42 / 22%);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 10px);
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.copy-feedback.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.copy-feedback.error {
+  background: #b91c1c;
+}
+
+.dark-theme .copy-feedback:not(.error) {
+  color: #172033;
+  background: #f8fafc;
+}
+
 .repository-controls {
   margin-bottom: 24px;
   display: flex;
@@ -762,7 +852,7 @@ body {
 
   .filter-controls {
     display: grid;
-    grid-template-columns: 1fr 1fr 44px auto;
+    grid-template-columns: 1fr 1fr 44px 44px auto;
   }
 
   .filter-controls select {
@@ -772,7 +862,11 @@ body {
 
 @media (max-width: 560px) {
   .filter-controls {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 44px 44px 1fr;
+  }
+
+  .filter-controls select {
+    grid-column: 1 / -1;
   }
 
   .favorites-filter-button {
@@ -781,6 +875,18 @@ body {
 
   .reset-button {
     width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .copy-feedback {
+    bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-feedback {
+    transition: none;
   }
 }
 
