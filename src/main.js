@@ -295,6 +295,7 @@ const savedFavorites = JSON.parse(
 )
 
 const favoriteRepositories = new Set(savedFavorites)
+const validSortOrders = new Set(['default', 'az', 'za'])
 let showFavoritesOnly = false
 
 function displayRepositories(items) {
@@ -389,6 +390,69 @@ repositoryList.addEventListener('click', (event) => {
   filterRepositories()
 })
 
+function updateFilterUrl() {
+  const params = new URLSearchParams(window.location.search)
+  const searchValue = searchInput.value.trim()
+
+  if (searchValue) {
+    params.set('q', searchValue)
+  } else {
+    params.delete('q')
+  }
+
+  if (languageFilter.value !== 'Semua') {
+    params.set('language', languageFilter.value)
+  } else {
+    params.delete('language')
+  }
+
+  if (sortOrder.value !== 'default') {
+    params.set('sort', sortOrder.value)
+  } else {
+    params.delete('sort')
+  }
+
+  if (showFavoritesOnly) {
+    params.set('favorites', 'true')
+  } else {
+    params.delete('favorites')
+  }
+
+  const queryString = params.toString()
+  const nextUrl = `${window.location.pathname}${
+    queryString ? `?${queryString}` : ''
+  }${window.location.hash}`
+
+  window.history.replaceState(null, '', nextUrl)
+}
+
+function updateFavoritesFilterButton() {
+  favoritesFilterButton.classList.toggle(
+    'active',
+    showFavoritesOnly,
+  )
+  favoritesFilterButton.textContent = showFavoritesOnly
+    ? '★'
+    : '☆'
+
+  favoritesFilterButton.setAttribute(
+    'aria-label',
+    showFavoritesOnly
+      ? 'Tampilkan semua repository'
+      : 'Tampilkan repository favorit',
+  )
+  favoritesFilterButton.setAttribute(
+    'title',
+    showFavoritesOnly
+      ? 'Tampilkan semua'
+      : 'Tampilkan favorit',
+  )
+  favoritesFilterButton.setAttribute(
+    'aria-pressed',
+    String(showFavoritesOnly),
+  )
+}
+
 function filterRepositories() {
   const selectedLanguage = languageFilter.value
   const searchText = searchInput.value.toLowerCase()
@@ -430,6 +494,7 @@ function filterRepositories() {
   }
 
   displayRepositories(filteredRepositories)
+  updateFilterUrl()
 }
 
 languageFilter.addEventListener('change', filterRepositories)
@@ -438,33 +503,7 @@ sortOrder.addEventListener('change', filterRepositories)
 
 favoritesFilterButton.addEventListener('click', () => {
   showFavoritesOnly = !showFavoritesOnly
-
-  favoritesFilterButton.classList.toggle(
-    'active',
-    showFavoritesOnly,
-  )
-favoritesFilterButton.textContent = showFavoritesOnly
-  ? '★'
-  : '☆'
-
-favoritesFilterButton.setAttribute(
-  'aria-label',
-  showFavoritesOnly
-    ? 'Tampilkan semua repository'
-    : 'Tampilkan repository favorit',
-)
-
-favoritesFilterButton.setAttribute(
-  'title',
-  showFavoritesOnly
-    ? 'Tampilkan semua'
-    : 'Tampilkan favorit',
-)
-  favoritesFilterButton.setAttribute(
-    'aria-pressed',
-    String(showFavoritesOnly),
-  )
-
+  updateFavoritesFilterButton()
   filterRepositories()
 })
 
@@ -474,19 +513,8 @@ resetFiltersButton.addEventListener('click', () => {
   sortOrder.value = 'default'
   showFavoritesOnly = false
 
-  favoritesFilterButton.textContent = '☆'
-favoritesFilterButton.classList.remove('active')
-favoritesFilterButton.setAttribute('aria-pressed', 'false')
-favoritesFilterButton.setAttribute(
-  'aria-label',
-  'Tampilkan repository favorit',
-)
-favoritesFilterButton.setAttribute(
-  'title',
-  'Tampilkan favorit',
-)
-
-  displayRepositories(repositories)
+  updateFavoritesFilterButton()
+  filterRepositories()
   searchInput.focus()
 })
 
@@ -613,4 +641,23 @@ languages.forEach((language) => {
   languageFilter.appendChild(option)
 })
 
-displayRepositories(repositories)
+function applyFiltersFromUrl() {
+  const params = new URLSearchParams(window.location.search)
+  const selectedLanguage = params.get('language')
+  const selectedSortOrder = params.get('sort')
+
+  searchInput.value = params.get('q') || ''
+  languageFilter.value = languages.includes(selectedLanguage)
+    ? selectedLanguage
+    : 'Semua'
+  sortOrder.value = validSortOrders.has(selectedSortOrder)
+    ? selectedSortOrder
+    : 'default'
+  showFavoritesOnly = params.get('favorites') === 'true'
+
+  updateFavoritesFilterButton()
+  filterRepositories()
+}
+
+window.addEventListener('popstate', applyFiltersFromUrl)
+applyFiltersFromUrl()
