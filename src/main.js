@@ -635,22 +635,40 @@ function updateThemeToggle(darkModeActive) {
   themeToggle.title = `Aktifkan mode ${targetTheme}`
 }
 
-const savedTheme = localStorage.getItem('pecahpr-theme')
-const darkModeActive = savedTheme === 'dark'
+const systemThemeQuery = window.matchMedia(
+  '(prefers-color-scheme: dark)',
+)
+const themeColorMeta = document.querySelector(
+  'meta[name="theme-color"]',
+)
+let savedTheme = localStorage.getItem('pecahpr-theme')
 
-document.body.classList.toggle('dark-theme', darkModeActive)
-updateThemeToggle(darkModeActive)
+function applyTheme(darkModeActive) {
+  document.body.classList.toggle('dark-theme', darkModeActive)
+  themeColorMeta?.setAttribute(
+    'content',
+    darkModeActive ? '#0f172a' : '#f7f9fc',
+  )
+  updateThemeToggle(darkModeActive)
+}
+
+applyTheme(
+  savedTheme ? savedTheme === 'dark' : systemThemeQuery.matches,
+)
+
+systemThemeQuery.addEventListener('change', (event) => {
+  if (!savedTheme) {
+    applyTheme(event.matches)
+  }
+})
 
 themeToggle.addEventListener('click', () => {
   const darkModeActive =
-    document.body.classList.toggle('dark-theme')
+    !document.body.classList.contains('dark-theme')
 
-  updateThemeToggle(darkModeActive)
-
-  localStorage.setItem(
-    'pecahpr-theme',
-    darkModeActive ? 'dark' : 'light',
-  )
+  savedTheme = darkModeActive ? 'dark' : 'light'
+  localStorage.setItem('pecahpr-theme', savedTheme)
+  applyTheme(darkModeActive)
 })
 
 function updateBackToTopButton() {
