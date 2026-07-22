@@ -566,3 +566,42 @@ body {
   }
 }
 
+.card-actions {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card .card-primary-link {
+  padding: 10px 14px;
+  color: white;
+  background: #16a34a;
+  border-radius: 8px;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.card .card-primary-link:hover {
+  background: #15803d;
+}
+
+.card .card-secondary-link {
+  color: #64748b;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.card .card-secondary-link:hover {
+  color: #166534;
+}
+
+.dark-theme .card .card-secondary-link {
+  color: #94a3b8;
+}
+
+.dark-theme .card .card-secondary-link:hover {
+  color: #86efac;
+}
+
