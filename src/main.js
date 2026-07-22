@@ -4,15 +4,28 @@ import repositories from './data/repositories.json'
 document.querySelector('#app').innerHTML = `
   <header class="navbar">
     <a class="logo" href="${import.meta.env.BASE_URL}">PecahPR</a>
-    <button id="theme-toggle" class="theme-toggle" type="button">
-  🌙 Mode gelap
-  </button>
+
+    <button
+      id="theme-toggle"
+      class="theme-toggle"
+      type="button"
+      aria-label="Aktifkan mode gelap"
+      title="Aktifkan mode gelap"
+    >
+      <img
+        id="theme-icon"
+        src="${import.meta.env.BASE_URL}icons/dark-mode.svg"
+        alt=""
+        aria-hidden="true"
+      />
+    </button>
+
     <a
-  class="github-link"
-  href="https://github.com/zanmstfa/pecah-pr"
-  target="_blank"
-  rel="noopener noreferrer"
->
+      class="github-link"
+      href="https://github.com/zanmstfa/pecah-pr"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Buka GitHub
     </a>
   </header>
@@ -209,6 +222,7 @@ const languageFilter = document.querySelector('#language-filter')
 const searchInput = document.querySelector('#search-input')
 const proposalForm = document.querySelector('#proposal-form')
 const themeToggle = document.querySelector('#theme-toggle')
+const themeIcon = document.querySelector('#theme-icon')
 const resetFiltersButton = document.querySelector('#reset-filters')
 const sortOrder = document.querySelector('#sort-order')
 
@@ -461,19 +475,32 @@ ${description}
   window.open(githubIssueUrl.toString(), '_blank')
 })
 
-const savedTheme = localStorage.getItem('pecahpr-theme')
+function updateThemeToggle(darkModeActive) {
+  const targetTheme = darkModeActive ? 'terang' : 'gelap'
+  const iconName = darkModeActive ? 'light-mode' : 'dark-mode'
 
-if (savedTheme === 'dark') {
-  document.body.classList.add('dark-theme')
-  themeToggle.textContent = '☀️ Mode terang'
+  themeIcon.src =
+    `${import.meta.env.BASE_URL}icons/${iconName}.svg`
+
+  themeToggle.setAttribute(
+    'aria-label',
+    `Aktifkan mode ${targetTheme}`,
+  )
+
+  themeToggle.title = `Aktifkan mode ${targetTheme}`
 }
 
-themeToggle.addEventListener('click', () => {
-  const darkModeActive = document.body.classList.toggle('dark-theme')
+const savedTheme = localStorage.getItem('pecahpr-theme')
+const darkModeActive = savedTheme === 'dark'
 
-  themeToggle.textContent = darkModeActive
-    ? '☀️ Mode terang'
-    : '🌙 Mode gelap'
+document.body.classList.toggle('dark-theme', darkModeActive)
+updateThemeToggle(darkModeActive)
+
+themeToggle.addEventListener('click', () => {
+  const darkModeActive =
+    document.body.classList.toggle('dark-theme')
+
+  updateThemeToggle(darkModeActive)
 
   localStorage.setItem(
     'pecahpr-theme',
