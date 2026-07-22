@@ -396,6 +396,15 @@ function displayRepositories(items) {
       const verificationDate = formatVerificationDate(
         repository.verifiedAt,
       )
+      const primaryAction = repository.hasBeginnerIssues
+        ? {
+            label: 'Lihat issue',
+            url: `${repository.url}/contribute`,
+          }
+        : {
+            label: 'Baca panduan',
+            url: repository.contributingUrl,
+          }
 
       return `
         <article
@@ -469,11 +478,11 @@ function displayRepositories(items) {
           <div class="card-actions">
   <a
     class="card-primary-link"
-    href="${repository.url}/contribute"
+    href="${primaryAction.url}"
     target="_blank"
     rel="noopener noreferrer"
   >
-    Lihat peluang
+    ${primaryAction.label}
   </a>
 
   <a
