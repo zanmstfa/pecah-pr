@@ -54,6 +54,17 @@ document.querySelector('#app').innerHTML = `
   <option value="za">Nama Z–A</option>
 </select>
 
+<button
+  id="favorites-filter"
+  class="favorites-filter-button"
+  type="button"
+  aria-label="Tampilkan repository favorit"
+  aria-pressed="false"
+  title="Tampilkan favorit"
+>
+  ☆
+</button>
+
         <button id="reset-filters" class="reset-button" type="button">
   Reset
 </button>
@@ -158,11 +169,16 @@ const themeToggle = document.querySelector('#theme-toggle')
 const resetFiltersButton = document.querySelector('#reset-filters')
 const sortOrder = document.querySelector('#sort-order')
 
+const favoritesFilterButton = document.querySelector(
+  '#favorites-filter',
+)
+
 const savedFavorites = JSON.parse(
   localStorage.getItem('pecahpr-favorites') || '[]',
 )
 
 const favoriteRepositories = new Set(savedFavorites)
+let showFavoritesOnly = false
 
 function displayRepositories(items) {
   resultCount.textContent = `${items.length} repository ditemukan`
@@ -258,20 +274,31 @@ function filterRepositories() {
       repository.owner.toLowerCase().includes(searchText) ||
       repository.description.toLowerCase().includes(searchText)
 
-    return matchesLanguage && matchesSearch
+    const repositoryId =
+      `${repository.owner}/${repository.name}`
+
+    const matchesFavorite =
+      !showFavoritesOnly ||
+      favoriteRepositories.has(repositoryId)
+
+    return (
+      matchesLanguage &&
+      matchesSearch &&
+      matchesFavorite
+    )
   })
 
   if (sortOrder.value === 'az') {
-  filteredRepositories.sort((firstRepository, secondRepository) =>
-    firstRepository.name.localeCompare(secondRepository.name),
-  )
-}
+    filteredRepositories.sort((firstRepository, secondRepository) =>
+      firstRepository.name.localeCompare(secondRepository.name),
+    )
+  }
 
-if (sortOrder.value === 'za') {
-  filteredRepositories.sort((firstRepository, secondRepository) =>
-    secondRepository.name.localeCompare(firstRepository.name),
-  )
-}
+  if (sortOrder.value === 'za') {
+    filteredRepositories.sort((firstRepository, secondRepository) =>
+      secondRepository.name.localeCompare(firstRepository.name),
+    )
+  }
 
   displayRepositories(filteredRepositories)
 }
@@ -280,10 +307,55 @@ languageFilter.addEventListener('change', filterRepositories)
 searchInput.addEventListener('input', filterRepositories)
 sortOrder.addEventListener('change', filterRepositories)
 
+favoritesFilterButton.addEventListener('click', () => {
+  showFavoritesOnly = !showFavoritesOnly
+
+  favoritesFilterButton.classList.toggle(
+    'active',
+    showFavoritesOnly,
+  )
+favoritesFilterButton.textContent = showFavoritesOnly
+  ? '★'
+  : '☆'
+
+favoritesFilterButton.setAttribute(
+  'aria-label',
+  showFavoritesOnly
+    ? 'Tampilkan semua repository'
+    : 'Tampilkan repository favorit',
+)
+
+favoritesFilterButton.setAttribute(
+  'title',
+  showFavoritesOnly
+    ? 'Tampilkan semua'
+    : 'Tampilkan favorit',
+)
+  favoritesFilterButton.setAttribute(
+    'aria-pressed',
+    String(showFavoritesOnly),
+  )
+
+  filterRepositories()
+})
+
 resetFiltersButton.addEventListener('click', () => {
   searchInput.value = ''
   languageFilter.value = 'Semua'
   sortOrder.value = 'default'
+  showFavoritesOnly = false
+
+  favoritesFilterButton.textContent = '☆'
+favoritesFilterButton.classList.remove('active')
+favoritesFilterButton.setAttribute('aria-pressed', 'false')
+favoritesFilterButton.setAttribute(
+  'aria-label',
+  'Tampilkan repository favorit',
+)
+favoritesFilterButton.setAttribute(
+  'title',
+  'Tampilkan favorit',
+)
 
   displayRepositories(repositories)
   searchInput.focus()

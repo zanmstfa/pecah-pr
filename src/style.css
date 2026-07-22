@@ -454,3 +454,52 @@ body {
   border-color: #a16207;
 }
 
+.favorites-filter-button {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  color: #64748b;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.favorites-filter-button:hover {
+  color: #a16207;
+  border-color: #eab308;
+}
+
+.favorites-filter-button.active {
+  color: #a16207;
+  background: #fefce8;
+  border-color: #eab308;
+}
+
+.favorites-filter-button:focus-visible {
+  outline: 3px solid rgb(234 179 8 / 20%);
+  outline-offset: 2px;
+}
+
+.dark-theme .favorites-filter-button {
+  color: #94a3b8;
+  background: #0f172a;
+  border-color: #475569;
+}
+
+.dark-theme .favorites-filter-button:hover,
+.dark-theme .favorites-filter-button.active {
+  color: #fde047;
+  background: #422006;
+  border-color: #a16207;
+}
+
