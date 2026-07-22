@@ -108,6 +108,26 @@ document.querySelector('#app').innerHTML = `
       </select>
 
       <button
+        id="random-repository"
+        class="random-repository-button"
+        type="button"
+        aria-label="Pilih repository secara acak"
+        title="Pilih acak"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M16 3h5v5" />
+          <path d="m4 20 17-17" />
+          <path d="M21 16v5h-5" />
+          <path d="m15 15 6 6" />
+          <path d="m4 4 5 5" />
+        </svg>
+      </button>
+
+      <button
         id="favorites-filter"
         class="favorites-filter-button"
         type="button"
@@ -278,8 +298,8 @@ document.querySelector('#app').innerHTML = `
   </footer>
 
   <div
-    id="copy-feedback"
-    class="copy-feedback"
+    id="action-feedback"
+    class="action-feedback"
     role="status"
     aria-live="polite"
     aria-atomic="true"
@@ -321,7 +341,10 @@ const favoritesFilterButton = document.querySelector(
 const copyFilterLinkButton = document.querySelector(
   '#copy-filter-link',
 )
-const copyFeedback = document.querySelector('#copy-feedback')
+const randomRepositoryButton = document.querySelector(
+  '#random-repository',
+)
+const actionFeedback = document.querySelector('#action-feedback')
 
 const savedFavorites = JSON.parse(
   localStorage.getItem('pecahpr-favorites') || '[]',
@@ -330,8 +353,13 @@ const savedFavorites = JSON.parse(
 const favoriteRepositories = new Set(savedFavorites)
 const validSortOrders = new Set(['default', 'az', 'za'])
 let showFavoritesOnly = false
+let visibleRepositories = []
+let lastRandomRepositoryId = null
+let recommendationHighlightTimeout
 
 function displayRepositories(items) {
+  visibleRepositories = items
+  randomRepositoryButton.disabled = items.length === 0
   resultCount.textContent = `${items.length} repository ditemukan`
 
   if (items.length === 0) {
@@ -351,7 +379,10 @@ function displayRepositories(items) {
       const isFavorite = favoriteRepositories.has(repositoryId)
 
       return `
-        <article class="card">
+        <article
+          class="card"
+          data-repository-card="${repositoryId}"
+        >
           <div>
             <div class="card-header">
               <span class="language">${repository.language}</span>
@@ -486,28 +517,88 @@ function updateFavoritesFilterButton() {
   )
 }
 
-let copyFeedbackTimeout
+let actionFeedbackTimeout
 
-function showCopyFeedback(message, isError = false) {
-  window.clearTimeout(copyFeedbackTimeout)
+function showActionFeedback(message, isError = false) {
+  window.clearTimeout(actionFeedbackTimeout)
 
-  copyFeedback.textContent = message
-  copyFeedback.classList.toggle('error', isError)
-  copyFeedback.classList.add('visible')
+  actionFeedback.textContent = message
+  actionFeedback.classList.toggle('error', isError)
+  actionFeedback.classList.add('visible')
 
-  copyFeedbackTimeout = window.setTimeout(() => {
-    copyFeedback.classList.remove('visible')
-    copyFeedback.textContent = ''
+  actionFeedbackTimeout = window.setTimeout(() => {
+    actionFeedback.classList.remove('visible')
+    actionFeedback.textContent = ''
   }, 2400)
 }
 
 copyFilterLinkButton.addEventListener('click', async () => {
   try {
     await navigator.clipboard.writeText(window.location.href)
-    showCopyFeedback('Tautan hasil filter disalin.')
+    showActionFeedback('Tautan hasil filter disalin.')
   } catch {
-    showCopyFeedback('Tautan belum dapat disalin.', true)
+    showActionFeedback('Tautan belum dapat disalin.', true)
   }
+})
+
+randomRepositoryButton.addEventListener('click', () => {
+  if (visibleRepositories.length === 0) {
+    showActionFeedback(
+      'Belum ada repository yang bisa dipilih.',
+      true,
+    )
+    return
+  }
+
+  const candidates =
+    visibleRepositories.length > 1
+      ? visibleRepositories.filter((repository) => {
+          const repositoryId =
+            `${repository.owner}/${repository.name}`
+
+          return repositoryId !== lastRandomRepositoryId
+        })
+      : visibleRepositories
+
+  const selectedRepository =
+    candidates[Math.floor(Math.random() * candidates.length)]
+  const selectedRepositoryId =
+    `${selectedRepository.owner}/${selectedRepository.name}`
+
+  lastRandomRepositoryId = selectedRepositoryId
+
+  const selectedCard = [...repositoryList.querySelectorAll('.card')]
+    .find(
+      (card) =>
+        card.dataset.repositoryCard === selectedRepositoryId,
+    )
+
+  if (!selectedCard) {
+    return
+  }
+
+  const reduceMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  ).matches
+
+  window.clearTimeout(recommendationHighlightTimeout)
+  repositoryList
+    .querySelector('.card.recommended')
+    ?.classList.remove('recommended')
+
+  selectedCard.classList.add('recommended')
+  selectedCard.scrollIntoView({
+    behavior: reduceMotion ? 'auto' : 'smooth',
+    block: 'center',
+  })
+
+  showActionFeedback(
+    `Rekomendasi untukmu: ${selectedRepository.name}`,
+  )
+
+  recommendationHighlightTimeout = window.setTimeout(() => {
+    selectedCard.classList.remove('recommended')
+  }, 2200)
 })
 
 function filterRepositories() {
