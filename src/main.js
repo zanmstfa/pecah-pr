@@ -214,6 +214,24 @@ document.querySelector('#app').innerHTML = `
     </section>
 
   </main>
+
+  <button
+    id="back-to-top"
+    class="back-to-top"
+    type="button"
+    aria-label="Kembali ke atas"
+    aria-hidden="true"
+    title="Kembali ke atas"
+    tabindex="-1"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="m6 15 6-6 6 6" />
+    </svg>
+  </button>
 `
 
 const repositoryList = document.querySelector('#repository-list')
@@ -223,6 +241,7 @@ const searchInput = document.querySelector('#search-input')
 const proposalForm = document.querySelector('#proposal-form')
 const themeToggle = document.querySelector('#theme-toggle')
 const themeIcon = document.querySelector('#theme-icon')
+const backToTopButton = document.querySelector('#back-to-top')
 const resetFiltersButton = document.querySelector('#reset-filters')
 const sortOrder = document.querySelector('#sort-order')
 
@@ -507,6 +526,34 @@ themeToggle.addEventListener('click', () => {
     darkModeActive ? 'dark' : 'light',
   )
 })
+
+function updateBackToTopButton() {
+  const shouldShowButton = window.scrollY > 600
+
+  backToTopButton.classList.toggle('visible', shouldShowButton)
+  backToTopButton.setAttribute(
+    'aria-hidden',
+    String(!shouldShowButton),
+  )
+  backToTopButton.tabIndex = shouldShowButton ? 0 : -1
+}
+
+window.addEventListener('scroll', updateBackToTopButton, {
+  passive: true,
+})
+
+backToTopButton.addEventListener('click', () => {
+  const reduceMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  ).matches
+
+  window.scrollTo({
+    top: 0,
+    behavior: reduceMotion ? 'auto' : 'smooth',
+  })
+})
+
+updateBackToTopButton()
 
 const languages = [
   ...new Set(
