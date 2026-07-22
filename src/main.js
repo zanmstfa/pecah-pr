@@ -452,7 +452,7 @@ function displayRepositories(items) {
                   `
                   : `
                     <span class="readiness-badge issues-unavailable">
-                      Issue pemula belum tersedia
+                      Belum ada issue pemula
                     </span>
                   `
               }
