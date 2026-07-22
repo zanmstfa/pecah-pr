@@ -215,6 +215,47 @@ document.querySelector('#app').innerHTML = `
 
   </main>
 
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a
+          class="footer-logo"
+          href="${import.meta.env.BASE_URL}"
+        >
+          PecahPR
+        </a>
+        <p>
+          Membantu developer menemukan langkah yang lebih jelas
+          untuk mulai berkontribusi ke proyek open-source.
+        </p>
+      </div>
+
+      <nav class="footer-links" aria-label="Tautan footer">
+        <a
+          href="https://github.com/zanmstfa/pecah-pr"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://github.com/zanmstfa/pecah-pr/blob/main/CONTRIBUTING.md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Panduan kontribusi
+        </a>
+        <a
+          href="https://github.com/zanmstfa/pecah-pr/issues/new"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Laporkan masalah
+        </a>
+      </nav>
+    </div>
+  </footer>
+
   <button
     id="back-to-top"
     class="back-to-top"
