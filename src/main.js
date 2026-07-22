@@ -48,6 +48,12 @@ document.querySelector('#app').innerHTML = `
           <option value="Semua">Semua bahasa</option>
         </select>
 
+        <select id="sort-order" aria-label="Urutkan repository">
+  <option value="default">Urutan bawaan</option>
+  <option value="az">Nama A–Z</option>
+  <option value="za">Nama Z–A</option>
+</select>
+
         <button id="reset-filters" class="reset-button" type="button">
   Reset
 </button>
@@ -150,6 +156,7 @@ const searchInput = document.querySelector('#search-input')
 const proposalForm = document.querySelector('#proposal-form')
 const themeToggle = document.querySelector('#theme-toggle')
 const resetFiltersButton = document.querySelector('#reset-filters')
+const sortOrder = document.querySelector('#sort-order')
 
 function displayRepositories(items) {
   resultCount.textContent = `${items.length} repository ditemukan`
@@ -189,7 +196,7 @@ function filterRepositories() {
   const selectedLanguage = languageFilter.value
   const searchText = searchInput.value.toLowerCase()
 
-  const filteredRepositories = repositories.filter((repository) => {
+  let filteredRepositories = repositories.filter((repository) => {
     const matchesLanguage =
       selectedLanguage === 'Semua' ||
       repository.language === selectedLanguage
@@ -202,15 +209,29 @@ function filterRepositories() {
     return matchesLanguage && matchesSearch
   })
 
+  if (sortOrder.value === 'az') {
+  filteredRepositories.sort((firstRepository, secondRepository) =>
+    firstRepository.name.localeCompare(secondRepository.name),
+  )
+}
+
+if (sortOrder.value === 'za') {
+  filteredRepositories.sort((firstRepository, secondRepository) =>
+    secondRepository.name.localeCompare(firstRepository.name),
+  )
+}
+
   displayRepositories(filteredRepositories)
 }
 
 languageFilter.addEventListener('change', filterRepositories)
 searchInput.addEventListener('input', filterRepositories)
+sortOrder.addEventListener('change', filterRepositories)
 
 resetFiltersButton.addEventListener('click', () => {
   searchInput.value = ''
   languageFilter.value = 'Semua'
+  sortOrder.value = 'default'
 
   displayRepositories(repositories)
   searchInput.focus()
