@@ -31,95 +31,57 @@ document.querySelector('#app').innerHTML = `
     </section>
 
     <section id="repository" class="repository">
-      <div class="section-heading">
-        <div class="section-heading">
-  <div>
-    <h2>Repository ramah pemula</h2>
-    <p>Pilih teknologi yang ingin kamu kontribusikan.</p>
+  <div class="section-heading">
+    <div>
+      <h2>Repository ramah pemula</h2>
+      <p>Pilih teknologi yang ingin kamu kontribusikan.</p>
+    </div>
+
+    <p id="result-count" class="result-count"></p>
   </div>
 
-  <p id="result-count" class="result-count"></p>
-</div>
+  <div class="repository-controls">
+    <input
+      id="search-input"
+      type="search"
+      placeholder="Cari repository..."
+      aria-label="Cari repository"
+    />
 
-<div class="repository-controls">
-  <input
-    id="search-input"
-    type="search"
-    placeholder="Cari repository..."
-    aria-label="Cari repository"
-  />
+    <div class="filter-controls">
+      <select id="language-filter" aria-label="Filter bahasa">
+        <option value="Semua">Semua bahasa</option>
+      </select>
 
-  <div class="filter-controls">
-    <select id="language-filter" aria-label="Filter bahasa">
-      <option value="Semua">Semua bahasa</option>
-    </select>
+      <select id="sort-order" aria-label="Urutkan repository">
+        <option value="default">Urutan bawaan</option>
+        <option value="az">Nama A–Z</option>
+        <option value="za">Nama Z–A</option>
+      </select>
 
-    <select id="sort-order" aria-label="Urutkan repository">
-      <option value="default">Urutan bawaan</option>
-      <option value="az">Nama A–Z</option>
-      <option value="za">Nama Z–A</option>
-    </select>
+      <button
+        id="favorites-filter"
+        class="favorites-filter-button"
+        type="button"
+        aria-label="Tampilkan repository favorit"
+        aria-pressed="false"
+        title="Tampilkan favorit"
+      >
+        ☆
+      </button>
 
-    <button
-      id="favorites-filter"
-      class="favorites-filter-button"
-      type="button"
-      aria-label="Tampilkan repository favorit"
-      aria-pressed="false"
-      title="Tampilkan favorit"
-    >
-      ☆
-    </button>
-
-    <button
-      id="reset-filters"
-      class="reset-button"
-      type="button"
-    >
-      Reset
-    </button>
+      <button
+        id="reset-filters"
+        class="reset-button"
+        type="button"
+      >
+        Reset
+      </button>
+    </div>
   </div>
-</div>
 
-<div id="repository-list" class="repository-list"></div>
-
-        <input
-          id="search-input"
-          type="search"
-          placeholder="Cari repository..."
-          aria-label="Cari repository"
-        />
-
-        <select id="language-filter" aria-label="Filter bahasa">
-          <option value="Semua">Semua bahasa</option>
-        </select>
-
-        <select id="sort-order" aria-label="Urutkan repository">
-  <option value="default">Urutan bawaan</option>
-  <option value="az">Nama A–Z</option>
-  <option value="za">Nama Z–A</option>
-</select>
-
-<button
-  id="favorites-filter"
-  class="favorites-filter-button"
-  type="button"
-  aria-label="Tampilkan repository favorit"
-  aria-pressed="false"
-  title="Tampilkan favorit"
->
-  ☆
-</button>
-
-        <button id="reset-filters" class="reset-button" type="button">
-  Reset
-</button>
-
-      </div>
-
-      <p id="result-count" class="result-count"></p>
-      <div id="repository-list" class="repository-list"></div>
-    </section>
+  <div id="repository-list" class="repository-list"></div>
+</section>
 
         <section class="proposal" id="proposal">
       <div class="proposal-intro">
@@ -270,13 +232,25 @@ function displayRepositories(items) {
             <p>${repository.description}</p>
           </div>
 
-          <a
-            href="${repository.url}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Lihat repository →
-          </a>
+          <div class="card-actions">
+  <a
+    class="card-primary-link"
+    href="${repository.url}/contribute"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Lihat peluang
+  </a>
+
+  <a
+    class="card-secondary-link"
+    href="${repository.url}"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Repository ↗
+  </a>
+</div>
         </article>
       `
     })
