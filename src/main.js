@@ -3,11 +3,16 @@ import repositories from './data/repositories.json'
 
 document.querySelector('#app').innerHTML = `
   <header class="navbar">
-    <a class="logo" href="/">PecahPR</a>
+    <a class="logo" href="${import.meta.env.BASE_URL}">PecahPR</a>
     <button id="theme-toggle" class="theme-toggle" type="button">
   🌙 Mode gelap
   </button>
-    <a class="github-link" href="https://github.com" target="_blank">
+    <a
+  class="github-link"
+  href="https://github.com/zanmstfa/pecah-pr"
+  target="_blank"
+  rel="noopener noreferrer"
+>
       Buka GitHub
     </a>
   </header>
