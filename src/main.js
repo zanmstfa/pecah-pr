@@ -47,6 +47,11 @@ document.querySelector('#app').innerHTML = `
         <select id="language-filter" aria-label="Filter bahasa">
           <option value="Semua">Semua bahasa</option>
         </select>
+
+        <button id="reset-filters" class="reset-button" type="button">
+  Reset
+</button>
+
       </div>
 
       <p id="result-count" class="result-count"></p>
@@ -144,6 +149,7 @@ const languageFilter = document.querySelector('#language-filter')
 const searchInput = document.querySelector('#search-input')
 const proposalForm = document.querySelector('#proposal-form')
 const themeToggle = document.querySelector('#theme-toggle')
+const resetFiltersButton = document.querySelector('#reset-filters')
 
 function displayRepositories(items) {
   resultCount.textContent = `${items.length} repository ditemukan`
@@ -201,6 +207,14 @@ function filterRepositories() {
 
 languageFilter.addEventListener('change', filterRepositories)
 searchInput.addEventListener('input', filterRepositories)
+
+resetFiltersButton.addEventListener('click', () => {
+  searchInput.value = ''
+  languageFilter.value = 'Semua'
+
+  displayRepositories(repositories)
+  searchInput.focus()
+})
 
 proposalForm.addEventListener('submit', (event) => {
   event.preventDefault()
