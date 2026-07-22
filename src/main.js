@@ -103,6 +103,7 @@ document.querySelector('#app').innerHTML = `
 
       <select id="sort-order" aria-label="Urutkan repository">
         <option value="default">Urutan bawaan</option>
+        <option value="issues">Issue pemula dulu</option>
         <option value="az">Nama A–Z</option>
         <option value="za">Nama Z–A</option>
       </select>
@@ -351,7 +352,12 @@ const savedFavorites = JSON.parse(
 )
 
 const favoriteRepositories = new Set(savedFavorites)
-const validSortOrders = new Set(['default', 'az', 'za'])
+const validSortOrders = new Set([
+  'default',
+  'issues',
+  'az',
+  'za',
+])
 let showFavoritesOnly = false
 let visibleRepositories = []
 let lastRandomRepositoryId = null
@@ -707,6 +713,14 @@ function filterRepositories() {
   if (sortOrder.value === 'za') {
     filteredRepositories.sort((firstRepository, secondRepository) =>
       secondRepository.name.localeCompare(firstRepository.name),
+    )
+  }
+
+  if (sortOrder.value === 'issues') {
+    filteredRepositories.sort(
+      (firstRepository, secondRepository) =>
+        Number(secondRepository.hasBeginnerIssues) -
+        Number(firstRepository.hasBeginnerIssues),
     )
   }
 
