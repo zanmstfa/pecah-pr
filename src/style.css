@@ -532,6 +532,44 @@ select {
   outline: 3px solid rgb(22 163 74 / 15%);
 }
 
+.issue-availability {
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.proposal-form .issue-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.proposal-form .issue-toggle input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex: 0 0 18px;
+  accent-color: #16a34a;
+}
+
+.field-help {
+  margin: 7px 0 0 28px;
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.dark-theme .issue-availability {
+  background: #0f172a;
+  border-color: #475569;
+}
+
+.dark-theme .field-help {
+  color: #94a3b8;
+}
+
 .submit-button {
   border: 0;
   cursor: pointer;

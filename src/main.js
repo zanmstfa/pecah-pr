@@ -241,13 +241,43 @@ document.querySelector('#app').innerHTML = `
         </label>
 
         <label>
-          URL issue ramah pemula
+          URL panduan kontribusi
           <input
-            id="proposal-issue-url"
+            id="proposal-contributing-url"
             type="url"
-            placeholder="https://github.com/pemilik/repository/issues/..."
+            placeholder="https://github.com/pemilik/repository/blob/main/CONTRIBUTING.md"
+            required
           />
         </label>
+
+        <div class="issue-availability">
+          <label class="issue-toggle">
+            <input
+              id="proposal-has-beginner-issues"
+              type="checkbox"
+              aria-controls="proposal-issue-field"
+              aria-expanded="false"
+            />
+            <span>Ada issue pemula saat diperiksa</span>
+          </label>
+
+          <p class="field-help">
+            Aktifkan jika repository sedang memiliki
+            <em>good first issue</em>.
+          </p>
+        </div>
+
+        <div id="proposal-issue-field" hidden>
+          <label>
+            URL issue ramah pemula
+            <input
+              id="proposal-issue-url"
+              type="url"
+              placeholder="https://github.com/pemilik/repository/issues/..."
+              disabled
+            />
+          </label>
+        </div>
 
         <button class="button submit-button" type="submit">
           Kirim usulan
@@ -330,6 +360,15 @@ const resultCount = document.querySelector('#result-count')
 const languageFilter = document.querySelector('#language-filter')
 const searchInput = document.querySelector('#search-input')
 const proposalForm = document.querySelector('#proposal-form')
+const proposalHasBeginnerIssues = document.querySelector(
+  '#proposal-has-beginner-issues',
+)
+const proposalIssueField = document.querySelector(
+  '#proposal-issue-field',
+)
+const proposalIssueUrl = document.querySelector(
+  '#proposal-issue-url',
+)
 const themeToggle = document.querySelector('#theme-toggle')
 const themeIcon = document.querySelector('#theme-icon')
 const backToTopButton = document.querySelector('#back-to-top')
@@ -749,6 +788,38 @@ resetFiltersButton.addEventListener('click', () => {
   searchInput.focus()
 })
 
+function updateProposalIssueField() {
+  const hasBeginnerIssues =
+    proposalHasBeginnerIssues.checked
+
+  proposalIssueField.hidden = !hasBeginnerIssues
+  proposalIssueUrl.disabled = !hasBeginnerIssues
+  proposalIssueUrl.required = hasBeginnerIssues
+  proposalHasBeginnerIssues.setAttribute(
+    'aria-expanded',
+    String(hasBeginnerIssues),
+  )
+
+  if (!hasBeginnerIssues) {
+    proposalIssueUrl.value = ''
+  }
+}
+
+proposalHasBeginnerIssues.addEventListener(
+  'change',
+  updateProposalIssueField,
+)
+updateProposalIssueField()
+
+function getLocalDate() {
+  const date = new Date()
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
+}
+
 proposalForm.addEventListener('submit', (event) => {
   event.preventDefault()
 
@@ -759,7 +830,13 @@ proposalForm.addEventListener('submit', (event) => {
     .querySelector('#proposal-description')
     .value.trim()
   const repositoryUrl = document.querySelector('#proposal-url').value.trim()
-  const issueUrl = document.querySelector('#proposal-issue-url').value.trim()
+  const contributingUrl = document
+    .querySelector('#proposal-contributing-url')
+    .value.trim()
+  const hasBeginnerIssues =
+    proposalHasBeginnerIssues.checked
+  const issueUrl = proposalIssueUrl.value.trim()
+  const verifiedAt = getLocalDate()
 
   const issueTitle = `Usulan repository: ${owner}/${name}`
 
@@ -769,7 +846,10 @@ proposalForm.addEventListener('submit', (event) => {
 - **Pemilik:** ${owner}
 - **Bahasa:** ${language}
 - **URL repository:** ${repositoryUrl}
-- **URL issue pemula:** ${issueUrl || 'Tidak dicantumkan'}
+- **URL panduan kontribusi:** ${contributingUrl}
+- **Issue pemula tersedia:** ${hasBeginnerIssues ? 'Ya' : 'Belum'}
+- **URL issue pemula:** ${issueUrl || 'Belum tersedia'}
+- **Tanggal diperiksa:** ${verifiedAt}
 
 ## Deskripsi
 
@@ -779,8 +859,8 @@ ${description}
 
 - [ ] Repository bersifat publik
 - [ ] Repository masih aktif
-- [ ] Dokumentasi repository cukup jelas
-- [ ] Repository memiliki issue ramah pemula
+- [ ] Panduan kontribusi cukup jelas
+- [ ] Status issue pemula sesuai hasil pemeriksaan
 - [ ] Repository belum tersedia di PecahPR`
 
   const githubIssueUrl = new URL(
