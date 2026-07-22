@@ -1,6 +1,7 @@
 # PecahPR
 
 PecahPR membantu developer Indonesia menemukan repository open-source yang ramah untuk kontribusi pertama.
+
 ## Demo
 
 Kunjungi website: [PecahPR](https://zanmstfa.github.io/pecah-pr/)
@@ -8,8 +9,11 @@ Kunjungi website: [PecahPR](https://zanmstfa.github.io/pecah-pr/)
 ## Fitur
 
 - Daftar repository ramah pemula.
-- Filter berdasarkan bahasa pemrograman.
-- Tautan langsung menuju repository GitHub.
+- Pencarian, filter bahasa, dan beberapa pilihan urutan.
+- Informasi panduan, issue pemula, dan tanggal pemeriksaan.
+- Tautan yang menyesuaikan kesiapan setiap repository.
+- Repository favorit yang tersimpan di perangkat.
+- Tautan hasil filter yang dapat dibagikan.
 - Data repository mudah ditambahkan melalui file JSON.
 - Panduan kontribusi berbahasa Indonesia.
 
@@ -42,8 +46,23 @@ Gunakan format berikut:
   "owner": "nama-pemilik",
   "description": "Deskripsi singkat repository.",
   "language": "JavaScript",
-  "url": "https://github.com/pemilik/nama-repository"
+  "url": "https://github.com/pemilik/nama-repository",
+  "contributingUrl": "https://github.com/pemilik/nama-repository/blob/main/CONTRIBUTING.md",
+  "hasBeginnerIssues": true,
+  "verifiedAt": "2026-07-22"
 }
+```
+
+`contributingUrl` berisi tautan langsung menuju panduan kontribusi.
+Isi `hasBeginnerIssues` dengan `true` hanya jika issue ramah
+pemula tersedia saat diperiksa. `verifiedAt` berisi tanggal
+pemeriksaan dengan format `YYYY-MM-DD`.
+
+Periksa data sebelum mengirim perubahan:
+
+```bash
+npm run validate:data
+npm run build
 ```
 
 Baca [CONTRIBUTING.md](CONTRIBUTING.md) untuk panduan selengkapnya.
