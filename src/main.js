@@ -158,6 +158,12 @@ const themeToggle = document.querySelector('#theme-toggle')
 const resetFiltersButton = document.querySelector('#reset-filters')
 const sortOrder = document.querySelector('#sort-order')
 
+const savedFavorites = JSON.parse(
+  localStorage.getItem('pecahpr-favorites') || '[]',
+)
+
+const favoriteRepositories = new Set(savedFavorites)
+
 function displayRepositories(items) {
   resultCount.textContent = `${items.length} repository ditemukan`
 
@@ -173,24 +179,70 @@ function displayRepositories(items) {
   }
 
   repositoryList.innerHTML = items
-    .map(
-      (repository) => `
+    .map((repository) => {
+      const repositoryId = `${repository.owner}/${repository.name}`
+      const isFavorite = favoriteRepositories.has(repositoryId)
+
+      return `
         <article class="card">
           <div>
-            <span class="language">${repository.language}</span>
+            <div class="card-header">
+              <span class="language">${repository.language}</span>
+
+              <button
+                class="favorite-button ${isFavorite ? 'active' : ''}"
+                type="button"
+                data-repository="${repositoryId}"
+                aria-label="${
+                  isFavorite
+                    ? `Hapus ${repository.name} dari favorit`
+                    : `Simpan ${repository.name} sebagai favorit`
+                }"
+              >
+                ${isFavorite ? '★' : '☆'}
+              </button>
+            </div>
+
             <h3>${repository.name}</h3>
             <span class="owner">${repository.owner}</span>
             <p>${repository.description}</p>
           </div>
 
-          <a href="${repository.url}" target="_blank" rel="noopener noreferrer">
+          <a
+            href="${repository.url}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Lihat repository →
           </a>
         </article>
-      `,
-    )
+      `
+    })
     .join('')
 }
+
+repositoryList.addEventListener('click', (event) => {
+  const favoriteButton = event.target.closest('.favorite-button')
+
+  if (!favoriteButton) {
+    return
+  }
+
+  const repositoryId = favoriteButton.dataset.repository
+
+  if (favoriteRepositories.has(repositoryId)) {
+    favoriteRepositories.delete(repositoryId)
+  } else {
+    favoriteRepositories.add(repositoryId)
+  }
+
+  localStorage.setItem(
+    'pecahpr-favorites',
+    JSON.stringify([...favoriteRepositories]),
+  )
+
+  filterRepositories()
+})
 
 function filterRepositories() {
   const selectedLanguage = languageFilter.value
