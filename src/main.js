@@ -119,6 +119,27 @@ document.querySelector('#app').innerHTML = `
       </button>
 
       <button
+        id="copy-filter-link"
+        class="copy-filter-link-button"
+        type="button"
+        aria-label="Salin tautan hasil filter"
+        title="Salin tautan hasil filter"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M10 13a5 5 0 0 0 7.07.07l2-2A5 5 0 0 0 12 4l-1.15 1.15"
+          />
+          <path
+            d="M14 11a5 5 0 0 0-7.07-.07l-2 2A5 5 0 0 0 12 20l1.15-1.15"
+          />
+        </svg>
+      </button>
+
+      <button
         id="reset-filters"
         class="reset-button"
         type="button"
@@ -256,6 +277,14 @@ document.querySelector('#app').innerHTML = `
     </div>
   </footer>
 
+  <div
+    id="copy-feedback"
+    class="copy-feedback"
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  ></div>
+
   <button
     id="back-to-top"
     class="back-to-top"
@@ -289,6 +318,10 @@ const sortOrder = document.querySelector('#sort-order')
 const favoritesFilterButton = document.querySelector(
   '#favorites-filter',
 )
+const copyFilterLinkButton = document.querySelector(
+  '#copy-filter-link',
+)
+const copyFeedback = document.querySelector('#copy-feedback')
 
 const savedFavorites = JSON.parse(
   localStorage.getItem('pecahpr-favorites') || '[]',
@@ -452,6 +485,30 @@ function updateFavoritesFilterButton() {
     String(showFavoritesOnly),
   )
 }
+
+let copyFeedbackTimeout
+
+function showCopyFeedback(message, isError = false) {
+  window.clearTimeout(copyFeedbackTimeout)
+
+  copyFeedback.textContent = message
+  copyFeedback.classList.toggle('error', isError)
+  copyFeedback.classList.add('visible')
+
+  copyFeedbackTimeout = window.setTimeout(() => {
+    copyFeedback.classList.remove('visible')
+    copyFeedback.textContent = ''
+  }, 2400)
+}
+
+copyFilterLinkButton.addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText(window.location.href)
+    showCopyFeedback('Tautan hasil filter disalin.')
+  } catch {
+    showCopyFeedback('Tautan belum dapat disalin.', true)
+  }
+})
 
 function filterRepositories() {
   const selectedLanguage = languageFilter.value
