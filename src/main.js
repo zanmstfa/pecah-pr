@@ -771,6 +771,27 @@ languageFilter.addEventListener('change', filterRepositories)
 searchInput.addEventListener('input', filterRepositories)
 sortOrder.addEventListener('change', filterRepositories)
 
+document.addEventListener('keydown', (event) => {
+  const isTyping = event.target.matches(
+    'input, textarea, select, [contenteditable="true"]',
+  )
+
+  if (
+    event.key === '/' &&
+    !event.ctrlKey &&
+    !event.metaKey &&
+    !event.altKey &&
+    !isTyping
+  ) {
+    event.preventDefault()
+    searchInput.focus()
+    searchInput.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    })
+  }
+})
+
 favoritesFilterButton.addEventListener('click', () => {
   showFavoritesOnly = !showFavoritesOnly
   updateFavoritesFilterButton()
