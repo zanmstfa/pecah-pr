@@ -623,6 +623,8 @@ function updateFilterUrl() {
 }
 
 function updateFavoritesFilterButton() {
+  const favoriteCount = favoriteRepositories.size
+
   favoritesFilterButton.classList.toggle(
     'active',
     showFavoritesOnly,
@@ -634,14 +636,14 @@ function updateFavoritesFilterButton() {
   favoritesFilterButton.setAttribute(
     'aria-label',
     showFavoritesOnly
-      ? 'Tampilkan semua repository'
-      : 'Tampilkan repository favorit',
+      ? `Tampilkan semua repository, ${favoriteCount} favorit tersimpan`
+      : `Tampilkan ${favoriteCount} repository favorit`,
   )
   favoritesFilterButton.setAttribute(
     'title',
     showFavoritesOnly
-      ? 'Tampilkan semua'
-      : 'Tampilkan favorit',
+      ? `Tampilkan semua (${favoriteCount} favorit)`
+      : `Tampilkan favorit (${favoriteCount})`,
   )
   favoritesFilterButton.setAttribute(
     'aria-pressed',
