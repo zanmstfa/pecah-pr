@@ -729,7 +729,7 @@ randomRepositoryButton.addEventListener('click', () => {
 
 function filterRepositories() {
   const selectedLanguage = languageFilter.value
-  const searchText = searchInput.value.toLowerCase()
+  const searchText = searchInput.value.trim().toLowerCase()
 
   let filteredRepositories = repositories.filter((repository) => {
     const matchesLanguage =
