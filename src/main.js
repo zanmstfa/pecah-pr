@@ -386,11 +386,23 @@ const randomRepositoryButton = document.querySelector(
 )
 const actionFeedback = document.querySelector('#action-feedback')
 
-const savedFavorites = JSON.parse(
-  localStorage.getItem('pecahpr-favorites') || '[]',
-)
+function loadSavedFavorites() {
+  try {
+    const saved = JSON.parse(
+      localStorage.getItem('pecahpr-favorites') || '[]',
+    )
 
-const favoriteRepositories = new Set(savedFavorites)
+    return Array.isArray(saved)
+      ? saved.filter((repositoryId) =>
+          typeof repositoryId === 'string',
+        )
+      : []
+  } catch {
+    return []
+  }
+}
+
+const favoriteRepositories = new Set(loadSavedFavorites())
 const validSortOrders = new Set([
   'default',
   'issues',
