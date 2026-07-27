@@ -447,6 +447,13 @@ function displayRepositories(items) {
         <span>🔍</span>
         <h3>Repository tidak ditemukan</h3>
         <p>Coba kata kunci atau bahasa yang berbeda.</p>
+        <button
+          class="reset-button"
+          type="button"
+          data-action="reset-empty"
+        >
+          Reset filter
+        </button>
       </div>
     `
     return
@@ -564,6 +571,15 @@ function displayRepositories(items) {
 }
 
 repositoryList.addEventListener('click', (event) => {
+  const emptyResetButton = event.target.closest(
+    '[data-action="reset-empty"]',
+  )
+
+  if (emptyResetButton) {
+    resetFilters()
+    return
+  }
+
   const favoriteButton = event.target.closest('.favorite-button')
 
   if (!favoriteButton) {
@@ -818,7 +834,7 @@ favoritesFilterButton.addEventListener('click', () => {
   filterRepositories()
 })
 
-resetFiltersButton.addEventListener('click', () => {
+function resetFilters() {
   searchInput.value = ''
   languageFilter.value = 'Semua'
   sortOrder.value = 'default'
@@ -827,7 +843,9 @@ resetFiltersButton.addEventListener('click', () => {
   updateFavoritesFilterButton()
   filterRepositories()
   searchInput.focus()
-})
+}
+
+resetFiltersButton.addEventListener('click', resetFilters)
 
 function updateProposalIssueField() {
   const hasBeginnerIssues =

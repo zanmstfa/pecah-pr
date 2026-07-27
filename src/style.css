@@ -618,6 +618,10 @@ select {
   color: #64748b;
 }
 
+.empty-state .reset-button {
+  margin-top: 20px;
+}
+
 body {
   min-height: 100vh;
   transition:
