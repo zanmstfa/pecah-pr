@@ -9,8 +9,8 @@ document.querySelector('#app').innerHTML = `
       id="theme-toggle"
       class="theme-toggle"
       type="button"
-      aria-label="Aktifkan mode gelap"
-      title="Aktifkan mode gelap"
+      aria-label="Switch to dark mode"
+      title="Switch to dark mode"
     >
       <img
         id="theme-icon"
@@ -26,7 +26,7 @@ document.querySelector('#app').innerHTML = `
       target="_blank"
       rel="noopener noreferrer"
     >
-      Buka GitHub
+      View on GitHub
     </a>
   </header>
 
@@ -40,12 +40,12 @@ document.querySelector('#app').innerHTML = `
         berkontribusi tanpa bingung harus dari mana.
       </p>
 
-      <a class="button" href="#repository">Cari kontribusi</a>
+      <a class="button" href="#repository">Explore repositories</a>
     </section>
 
     <section class="getting-started" aria-labelledby="getting-started-title">
   <div class="getting-started-heading">
-    <span class="eyebrow">Cara mulai</span>
+    <span class="eyebrow">Getting started</span>
     <h2 id="getting-started-title">
       Kontribusi pertamamu dalam tiga langkah
     </h2>
@@ -54,7 +54,7 @@ document.querySelector('#app').innerHTML = `
   <ol class="steps-list">
     <li class="step-card">
       <span class="step-number">01</span>
-      <h3>Pilih repository</h3>
+      <h3>Choose a repository</h3>
       <p>
         Cari proyek yang sesuai dengan teknologi yang ingin kamu pelajari.
       </p>
@@ -62,7 +62,7 @@ document.querySelector('#app').innerHTML = `
 
     <li class="step-card">
       <span class="step-number">02</span>
-      <h3>Baca panduannya</h3>
+      <h3>Read the guide</h3>
       <p>
         Periksa README dan CONTRIBUTING sebelum mulai mengubah kode.
       </p>
@@ -70,7 +70,7 @@ document.querySelector('#app').innerHTML = `
 
     <li class="step-card">
       <span class="step-number">03</span>
-      <h3>Kirim perubahan</h3>
+      <h3>Send your changes</h3>
       <p>
         Kerjakan issue, uji perubahan, lalu kirim melalui pull request.
       </p>
@@ -81,8 +81,8 @@ document.querySelector('#app').innerHTML = `
     <section id="repository" class="repository">
   <div class="section-heading">
     <div>
-      <h2>Repository ramah pemula</h2>
-      <p>Pilih teknologi yang ingin kamu kontribusikan.</p>
+      <h2>Beginner-friendly repositories</h2>
+      <p>Pilih teknologi yang ingin kamu pelajari lewat kontribusi.</p>
     </div>
 
     <p
@@ -98,28 +98,28 @@ document.querySelector('#app').innerHTML = `
     <input
       id="search-input"
       type="search"
-      placeholder="Cari repository..."
-      aria-label="Cari repository"
+      placeholder="Search repositories..."
+      aria-label="Search repositories"
     />
 
     <div class="filter-controls">
-      <select id="language-filter" aria-label="Filter bahasa">
-        <option value="Semua">Semua bahasa</option>
+      <select id="language-filter" aria-label="Filter by language">
+        <option value="Semua">All languages</option>
       </select>
 
-      <select id="sort-order" aria-label="Urutkan repository">
-        <option value="default">Urutan bawaan</option>
-        <option value="issues">Issue pemula dulu</option>
-        <option value="az">Nama A–Z</option>
-        <option value="za">Nama Z–A</option>
+      <select id="sort-order" aria-label="Sort repositories">
+        <option value="default">Default order</option>
+        <option value="issues">Beginner issues first</option>
+        <option value="az">Name A–Z</option>
+        <option value="za">Name Z–A</option>
       </select>
 
       <button
         id="random-repository"
         class="random-repository-button"
         type="button"
-        aria-label="Pilih repository secara acak"
-        title="Pilih acak"
+        aria-label="Pick a random repository"
+        title="Surprise me"
       >
         <svg
           viewBox="0 0 24 24"
@@ -138,9 +138,9 @@ document.querySelector('#app').innerHTML = `
         id="favorites-filter"
         class="favorites-filter-button"
         type="button"
-        aria-label="Tampilkan repository favorit"
+        aria-label="Show favorite repositories"
         aria-pressed="false"
-        title="Tampilkan favorit"
+        title="Show favorites"
       >
         ☆
       </button>
@@ -149,8 +149,8 @@ document.querySelector('#app').innerHTML = `
         id="copy-filter-link"
         class="copy-filter-link-button"
         type="button"
-        aria-label="Salin tautan hasil filter"
-        title="Salin tautan hasil filter"
+        aria-label="Copy filtered results link"
+        title="Copy filter link"
       >
         <svg
           viewBox="0 0 24 24"
@@ -181,7 +181,7 @@ document.querySelector('#app').innerHTML = `
 
         <section class="proposal" id="proposal">
       <div class="proposal-intro">
-        <span class="label">Bantu komunitas</span>
+        <span class="label">Community picks</span>
         <h2>Usulkan repository</h2>
         <p>
           Menemukan repository yang cocok untuk pemula?
@@ -264,7 +264,7 @@ document.querySelector('#app').innerHTML = `
               aria-controls="proposal-issue-field"
               aria-expanded="false"
             />
-            <span>Ada issue pemula saat diperiksa</span>
+            <span>Good first issue tersedia saat diperiksa</span>
           </label>
 
           <p class="field-help">
@@ -308,7 +308,7 @@ document.querySelector('#app').innerHTML = `
         </p>
       </div>
 
-      <nav class="footer-links" aria-label="Tautan footer">
+      <nav class="footer-links" aria-label="Footer links">
         <a
           href="https://github.com/zanmstfa/pecah-pr"
           target="_blank"
@@ -321,14 +321,14 @@ document.querySelector('#app').innerHTML = `
           target="_blank"
           rel="noopener noreferrer"
         >
-          Panduan kontribusi
+          Contribution guide
         </a>
         <a
           href="https://github.com/zanmstfa/pecah-pr/issues/new"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Laporkan masalah
+          Report an issue
         </a>
       </nav>
     </div>
@@ -346,9 +346,9 @@ document.querySelector('#app').innerHTML = `
     id="back-to-top"
     class="back-to-top"
     type="button"
-    aria-label="Kembali ke atas"
+    aria-label="Back to top"
     aria-hidden="true"
-    title="Kembali ke atas"
+    title="Back to top"
     tabindex="-1"
   >
     <svg
@@ -421,7 +421,7 @@ let lastRandomRepositoryId = null
 let recommendationHighlightTimeout
 
 const verificationDateFormatter = new Intl.DateTimeFormat(
-  'id-ID',
+  'en-US',
   {
     day: 'numeric',
     month: 'short',
@@ -439,20 +439,23 @@ function formatVerificationDate(date) {
 function displayRepositories(items) {
   visibleRepositories = items
   randomRepositoryButton.disabled = items.length === 0
-  resultCount.textContent = `${items.length} repository ditemukan`
+  const repositoryLabel =
+    items.length === 1 ? 'repository' : 'repositories'
+  resultCount.textContent =
+    `${items.length} ${repositoryLabel} found`
 
   if (items.length === 0) {
     repositoryList.innerHTML = `
       <div class="empty-state">
         <span>🔍</span>
-        <h3>Repository tidak ditemukan</h3>
-        <p>Coba kata kunci atau bahasa yang berbeda.</p>
+        <h3>No repositories found</h3>
+        <p>Coba kata kunci lain atau ubah filter yang dipakai.</p>
         <button
           class="reset-button"
           type="button"
           data-action="reset-empty"
         >
-          Reset filter
+          Reset filters
         </button>
       </div>
     `
@@ -468,11 +471,11 @@ function displayRepositories(items) {
       )
       const primaryAction = repository.hasBeginnerIssues
         ? {
-            label: 'Lihat issue',
+            label: 'View issues',
             url: `${repository.url}/contribute`,
           }
         : {
-            label: 'Baca panduan',
+            label: 'Read guide',
             url: repository.contributingUrl,
           }
 
@@ -491,8 +494,8 @@ function displayRepositories(items) {
                 data-repository="${repositoryId}"
                 aria-label="${
                   isFavorite
-                    ? `Hapus ${repository.name} dari favorit`
-                    : `Simpan ${repository.name} sebagai favorit`
+                    ? `Remove ${repository.name} from favorites`
+                    : `Save ${repository.name} to favorites`
                 }"
               >
                 ${isFavorite ? '★' : '☆'}
@@ -506,7 +509,7 @@ function displayRepositories(items) {
             <div
               class="readiness-status"
               role="group"
-              aria-label="Kesiapan kontribusi"
+              aria-label="Contribution readiness"
             >
               <a
                 class="readiness-badge guide-available"
@@ -514,7 +517,7 @@ function displayRepositories(items) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Panduan tersedia
+                Contribution guide
               </a>
 
               ${
@@ -526,12 +529,12 @@ function displayRepositories(items) {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Issue pemula tersedia
+                      Beginner issue available
                     </a>
                   `
                   : `
                     <span class="readiness-badge issues-unavailable">
-                      Belum ada issue pemula
+                      No beginner issue yet
                     </span>
                   `
               }
@@ -541,7 +544,7 @@ function displayRepositories(items) {
               class="verified-at"
               datetime="${repository.verifiedAt}"
             >
-              Diperiksa ${verificationDate}
+              Checked ${verificationDate}
             </time>
           </div>
 
@@ -652,14 +655,14 @@ function updateFavoritesFilterButton() {
   favoritesFilterButton.setAttribute(
     'aria-label',
     showFavoritesOnly
-      ? `Tampilkan semua repository, ${favoriteCount} favorit tersimpan`
-      : `Tampilkan ${favoriteCount} repository favorit`,
+      ? `Show all repositories, ${favoriteCount} favorites saved`
+      : `Show ${favoriteCount} favorite repositories`,
   )
   favoritesFilterButton.setAttribute(
     'title',
     showFavoritesOnly
-      ? `Tampilkan semua (${favoriteCount} favorit)`
-      : `Tampilkan favorit (${favoriteCount})`,
+      ? `Show all (${favoriteCount} favorites)`
+      : `Show favorites (${favoriteCount})`,
   )
   favoritesFilterButton.setAttribute(
     'aria-pressed',
@@ -934,7 +937,7 @@ ${description}
 })
 
 function updateThemeToggle(darkModeActive) {
-  const targetTheme = darkModeActive ? 'terang' : 'gelap'
+  const targetTheme = darkModeActive ? 'light' : 'dark'
   const iconName = darkModeActive ? 'light-mode' : 'dark-mode'
 
   themeIcon.src =
@@ -942,10 +945,10 @@ function updateThemeToggle(darkModeActive) {
 
   themeToggle.setAttribute(
     'aria-label',
-    `Aktifkan mode ${targetTheme}`,
+    `Switch to ${targetTheme} mode`,
   )
 
-  themeToggle.title = `Aktifkan mode ${targetTheme}`
+  themeToggle.title = `Switch to ${targetTheme} mode`
 }
 
 const systemThemeQuery = window.matchMedia(
