@@ -85,7 +85,13 @@ document.querySelector('#app').innerHTML = `
       <p>Pilih teknologi yang ingin kamu kontribusikan.</p>
     </div>
 
-    <p id="result-count" class="result-count"></p>
+    <p
+      id="result-count"
+      class="result-count"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></p>
   </div>
 
   <div class="repository-controls">
